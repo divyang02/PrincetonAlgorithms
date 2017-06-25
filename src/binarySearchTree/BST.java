@@ -27,8 +27,8 @@ public class BST<Key extends Comparable<Key>, Value> {
 	private Node put(Node x, Key key, Value value) {
 		if (x == null) return new Node(key, value);
 		int cmp = key.compareTo(x.key);
-		if (cmp < 0) x.left = put(x, key, value);
-		else if (cmp > 0) x.right = put(x, key, value);
+		if (cmp < 0) x.left = put(x.left, key, value);
+		else if (cmp > 0) x.right = put(x.right, key, value);
 		else x.value = value;
 		x.count = 1 + size(x.left) + size(x.right);
 		return x;
@@ -102,7 +102,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		inorder(x.right, q);
 	}
 	
-	/* finds the min element in the bst and delets it
+	/* finds the min element in the bst and deletes it
 	 * it goes to the leftmost branch and deletes it
 	 * after deleting it it assigns the left of last left branch to right of the deleted node 
 	 */
@@ -134,8 +134,8 @@ public class BST<Key extends Comparable<Key>, Value> {
 		if(cmp < 0) x.left = delete(x.left, key);
 		if(cmp > 0) x.right = delete(x.right, key);
 		else {
-			if(x.left == null) return x.left;
-			if(x.right == null) return x.right;
+			if(x.right == null) return x.left;
+			if(x.left == null) return x.right;
 			
 			Node t = x;
 			x = min(t.right);
